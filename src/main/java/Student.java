@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -6,7 +7,7 @@ public class Student {
     private String firstName;
     private String lastName;
     private Curriculum curriculum;
-    private Date startDate;
+    private LocalDate startDate;
     private Map<Course,Integer> courses;
     private List<Integer> marks;
 
@@ -22,7 +23,7 @@ public class Student {
         return curriculum;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
@@ -34,7 +35,7 @@ public class Student {
         return marks;
     }
 
-    public Student(String firstName, String lastName, Curriculum curriculum, Date startDate, Map<Course, Integer> courses, List<Integer> marks) {
+    public Student(String firstName, String lastName, Curriculum curriculum, LocalDate startDate, Map<Course, Integer> courses, List<Integer> marks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.curriculum = curriculum;

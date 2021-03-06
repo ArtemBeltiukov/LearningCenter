@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,8 @@ public class Main {
         courseJ2EE.put(new Course("Hibernate"), 20);
 
         List<Integer> marksStudent1 = List.of(3, 4, 2, 5, 3, 3);
+        int daysPass1  = marksStudent1.size();
+
 
         Curriculum curriculumJava = new Curriculum("Java Developer ");
         Map<Course, Integer> courseJava = new HashMap<>();
@@ -27,21 +30,15 @@ public class Main {
         courseJava.put(new Course("Библиотеки commons"), 44);
 
         List<Integer> marksStudent2 = List.of(4, 5, 3, 2, 3, 3, 5, 5);
+        int daysPass2  = marksStudent2.size();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        Date date = null;
 
-        try {
-            date = format.parse("02/28/2021 10:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate date = null;
+        date = LocalDate.now().minusDays(daysPass1);
 
-        Date date1 = null;
-        try {
-            date1 = format.parse("02/26/2021 10:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        LocalDate date1 = null;
+
+        date1 = LocalDate.now().minusDays(daysPass2);
 
         Student student2 = new Student("Petr",
                 "Petrov",
@@ -58,16 +55,16 @@ public class Main {
                 marksStudent1);
         // Student 1
         int daysLeft = StudentFactory.daysLeft(student1);
-        System.out.println(student1 + " days left: " + daysLeft);
+        System.out.println(student1 + " осталось дней обучения: " + daysLeft);
         double avrMark = StudentFactory.averageMark(student1);
-        System.out.println(student1 + " average mark is " + avrMark);
+        System.out.println(student1 + " средняя оценка " + avrMark);
         StudentFactory.possibilityOfDeduction(student1);
 
         // Student 2
         int daysLeft2 = StudentFactory.daysLeft(student2);
-        System.out.println(student2 + " days left: " + daysLeft2);
+        System.out.println(student2 + " осталось дней обучения: " + daysLeft2);
         double avrMark2 = StudentFactory.averageMark(student2);
-        System.out.println(student2 + " average mark is " + avrMark2);
+        System.out.println(student2 + " средняя оценка " + avrMark2);
         StudentFactory.possibilityOfDeduction(student2);
 
         // Sorted list of students

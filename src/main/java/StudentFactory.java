@@ -1,28 +1,32 @@
 import javax.swing.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 
 public class StudentFactory {
-
+    static MathContext context = new MathContext(2, RoundingMode.HALF_UP);
     public static Student createStudent(String firstName, String lastName,
-                                 Curriculum curriculum,
-                                 Date startDate, Map<Course, Integer> courses,
-                                 List<Integer> marks){
+                                        Curriculum curriculum,
+                                        LocalDate startDate, Map<Course, Integer> courses,
+                                        List<Integer> marks){
         return new Student(firstName, lastName, curriculum, startDate, courses, marks);
     }
 
     public static Integer daysLeft(Student student){
         Map<Course,Integer> courses = student.getCourses();
         int hoursAll = courses.values().stream().mapToInt(x->x).sum();
-        long hoursPass = (new Date().getTime() - student.getStartDate().getTime())/ (60 * 60 * 1000);
-        int hoursLeft = hoursAll - Math.toIntExact(hoursPass)/3;
-        int daysleft = hoursLeft / 8;
-        return daysleft;
+        long daysPass = Period.between(LocalDate.now(),student.getStartDate()).getDays();
+        return hoursAll/8 - Math.toIntExact(daysPass)*-1;
     }
 
     public static Double averageMark(Student student) {
         List<Integer> marks = student.getMarks();
         OptionalDouble avr = marks.stream().mapToInt(x->x).average();
-        return avr.getAsDouble();
+        BigDecimal result = new BigDecimal(avr.getAsDouble(), context);
+        return result.doubleValue();
     }
 
     public static Double possibleAverageMark(Student student) {
@@ -33,16 +37,17 @@ public class StudentFactory {
             daysLeft--;
         }
         OptionalDouble avr = marks.stream().mapToInt(x->x).average();
-        return avr.getAsDouble();
+        BigDecimal result = new BigDecimal(avr.getAsDouble(), context);
+        return result.doubleValue();
     }
 
     public static void possibilityOfDeduction(Student student){
         double possibleAvr = possibleAverageMark(student);
         if (possibleAvr < 4.5f){
-            System.out.println("Средняя оценка " + possibleAvr + ". Отчислить.");
+            System.out.println("Максимально возможная средняя оценка " + possibleAvr + ". Отчислить.");
         }
         else{
-            System.out.println("Средняя оценка " + possibleAvr +". Может продолжать обучение.");
+            System.out.println("Максимально возможная средняя оценка " + possibleAvr +". Может продолжать обучение.");
         }
     }
 
@@ -65,7 +70,7 @@ public class StudentFactory {
                 else return 0;
             });
         }
-        System.out.println("List of students sorted by actual mark " +students);
+        System.out.println("Список студентов, отсоритрованный по текущей средней оценке " + students + ". " + sortOrder.toString());
     }
 
     public static void listOfStudentsSortByPossibleMark(List<Student> list, SortOrder sortOrder) {
@@ -87,7 +92,7 @@ public class StudentFactory {
                 else return 0;
             });
         }
-        System.out.println("List of students sorted by maximum possible mark " +students);
+        System.out.println("Список студентов, отсортированный по максимально возможной средней оценке " +students + ". " + sortOrder.toString());
     }
 
     public static void listOfStudentsSortByTimeLeft(List<Student> list, SortOrder sortOrder){
@@ -109,6 +114,6 @@ public class StudentFactory {
                 else return 0;
             });
         }
-        System.out.println("List of students sorted by time left " +students);
+        System.out.println("Список студентов, отсортированный по оставщемуся времени обучения " +students + ". " + sortOrder.toString());
     }
 }
