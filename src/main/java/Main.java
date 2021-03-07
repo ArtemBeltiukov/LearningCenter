@@ -20,7 +20,6 @@ public class Main {
         List<Integer> marksStudent1 = List.of(3, 4, 2, 5, 3, 3);
         int daysPass1  = marksStudent1.size();
 
-
         Curriculum curriculumJava = new Curriculum("Java Developer ");
         Map<Course, Integer> courseJava = new HashMap<>();
         courseJava.put(new Course("Обзор технологий Java"), 8);
@@ -31,16 +30,10 @@ public class Main {
 
         List<Integer> marksStudent2 = List.of(4, 5, 3, 2, 3, 3, 5, 5);
         int daysPass2  = marksStudent2.size();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        LocalDate date = LocalDate.now().minusDays(daysPass1);
+        LocalDate date1 = LocalDate.now().minusDays(daysPass2);
 
-        LocalDate date = null;
-        date = LocalDate.now().minusDays(daysPass1);
-
-        LocalDate date1 = null;
-
-        date1 = LocalDate.now().minusDays(daysPass2);
-
-        Student student2 = new Student("Petr",
+        Student student2 = StudentFactory.createStudent("Petr",
                 "Petrov",
                 curriculumJava,
                 date1,
